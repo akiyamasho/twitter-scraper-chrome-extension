@@ -28311,7 +28311,7 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                     image: _.image || _.video || [],
                     reach: _.reach
                         ? parseInt(getRawNumberFromJaFormat(_.reach))
-                        : ">30K",
+                        : "?",
                     tweetId: _.tweetId ? _.tweetId : "0",
                 };
 
