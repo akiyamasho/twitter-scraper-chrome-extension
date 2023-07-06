@@ -27728,15 +27728,17 @@ function H3({ post: e }) {
 function W3({ post: e }) {
     const t = T.exports.useMemo(() => {
         let r = e.map((n) => {
-            const i = n.like !== "" ? n.like : "0",
-                a = n.reply !== "" ? n.reply : "0",
-                o = n.retweet !== "" ? n.retweet : "0",
-                s = n.spread !== "" ? n.spread : "0";
+            const i = n.like !== "" ? n.like : "?",
+                a = n.reply !== "" ? n.reply : "?",
+                o = n.retweet !== "" ? n.retweet : "?",
+                s = n.spread !== "" ? n.spread : "?",
+                reach = n.reach !== "" ? n.reach : "?";
             return {
                 like: i,
                 reply: a,
                 retweet: o,
                 spread: s,
+                reach,
                 time: n.time,
                 content: n.content,
             };
@@ -27872,15 +27874,15 @@ function W3({ post: e }) {
                                                                 }),
                                                                 L("span", {
                                                                     className:
-                                                                        "text-purple-700",
+                                                                        "text-orange-main",
                                                                     children: [
                                                                         O(uu, {
                                                                             className:
                                                                                 "mx-1 -mt-1 inline-block h-3 align-middle",
                                                                         }),
                                                                         " ",
-                                                                        r.spread
-                                                                            ? r.spread
+                                                                        r.reach
+                                                                            ? r.reach
                                                                             : 0,
                                                                     ],
                                                                 }),
@@ -28284,18 +28286,22 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                 let { like: m, reply: x, retweet: w } = _;
                 (m = m || "0"), (x = x || "0"), (w = w || "0");
                 const S = parseInt(m) + parseInt(x) * 1.5 + parseInt(w) * 2;
-                return {
+                const outputData = {
                     id: b + 1,
-                    time: er(_.time).format("DD-MM-YYYY"),
+                    time: er(_.time).format("YYYY-MM-DD"),
                     content: _.content,
-                    like: _.like ? parseInt(_.like) : "0",
-                    retweet: _.retweet ? parseInt(_.retweet) : "0",
-                    comment: _.reply ? parseInt(_.reply) : "0",
-                    spread: _.spread ? parseInt(_.spread) : "0",
+                    like: _.like ? parseInt(_.like) : "?",
+                    retweet: _.retweet ? parseInt(_.retweet) : "?",
+                    comment: _.reply ? parseInt(_.reply) : "?",
+                    spread: _.spread ? parseInt(_.spread) : "?",
                     score: S,
                     postType: ud(_.postType),
                     image: _.image || _.video || [],
+                    reach: _.reach ? parseInt(_.reach) : "?",
+                    tweetId: _.tweetId ? _.tweetId : "?",
                 };
+
+                return outputData;
             });
             if (n) {
                 const _ = n.toLowerCase();
@@ -28413,18 +28419,6 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                                                     type: "retweet",
                                                 }),
                                                 O(Pt, {
-                                                    name: O(uu, {
-                                                        className:
-                                                            "inline-block h-3 align-middle",
-                                                    }),
-                                                    sort:
-                                                        o === "spread" ? i : "",
-                                                    onSort: h,
-                                                    className:
-                                                        "w-1/12 text-right",
-                                                    type: "spread",
-                                                }),
-                                                O(Pt, {
                                                     name: O(oa, {
                                                         className:
                                                             "inline-block h-3 align-middle",
@@ -28437,16 +28431,27 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                                                     type: "reply",
                                                 }),
                                                 O(Pt, {
-                                                    name: O(Dd, {
+                                                    name: O(uu, {
                                                         className:
-                                                            "-mr-2 inline-block h-2",
+                                                            "inline-block h-3 align-middle",
                                                     }),
                                                     sort:
-                                                        o === "score" ? i : "",
+                                                        o === "reach" ? i : "",
                                                     onSort: h,
                                                     className:
                                                         "w-1/12 text-right",
-                                                    type: "score",
+                                                    type: "reach",
+                                                }),
+                                                O(Pt, {
+                                                    name: "Tweet ID",
+                                                    sort:
+                                                        o === "tweetId"
+                                                            ? i
+                                                            : "",
+                                                    onSort: h,
+                                                    className:
+                                                        "w-2/12 text-right",
+                                                    type: "tweetId",
                                                 }),
                                             ],
                                         }),
@@ -28565,36 +28570,22 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                                                                 "span",
                                                                 {
                                                                     className:
-                                                                        "text-purple-700",
+                                                                        "text-orange-main",
                                                                     children: [
                                                                         O(uu, {
                                                                             className:
                                                                                 "mr-1 -mt-1 inline-block h-3 align-middle",
                                                                         }),
                                                                         " ",
-                                                                        g.spread,
+                                                                        g.reach,
                                                                     ],
                                                                 }
                                                             ),
                                                         }),
                                                         O("td", {
                                                             className:
-                                                                "w-1/12 whitespace-normal py-4 text-right text-sm",
-                                                            children: L(
-                                                                "span",
-                                                                {
-                                                                    className:
-                                                                        "text-orange-main",
-                                                                    children: [
-                                                                        O(Y3, {
-                                                                            className:
-                                                                                "-mr-2 -mt-1 inline-block h-2",
-                                                                        }),
-                                                                        " ",
-                                                                        g.score,
-                                                                    ],
-                                                                }
-                                                            ),
+                                                                "w-2/12 whitespace-normal py-4 pr-4 text-right text-sm",
+                                                            children: g.tweetId,
                                                         }),
                                                     ],
                                                 },

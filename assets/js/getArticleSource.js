@@ -82,8 +82,6 @@ if (!window.retrievePostData) {
                 reach: reachDom ? reachDom.innerText : "",
                 postType,
             };
-            console.log(data["engagement"]);
-            console.log(data["tweetId"]);
             articleData.push(data);
             var index = window.allArticle.findIndex(
                 (item) => item.time === data.time
