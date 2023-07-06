@@ -2936,10 +2936,8 @@ function Am({ tab: e, onChangeTab: t, onExport: r, post: n, profile: i }) {
                                     "flex flex-row items-center duration-300 ease-in hover:opacity-75",
                                 children: [
                                     O(Dd, { className: "mr-2 h-6 w-auto" }),
-                                    O("a", {
-                                        target: "_blank",
-                                        rel: "noopener noreferrer",
-                                        href: "https://nighthustle.co",
+                                    O(Cl, {
+                                        onClick: () => t(0),
                                         className: "text-[25px] font-semibold",
                                         children: "Twitter Scraper",
                                     }),
@@ -27732,7 +27730,8 @@ function W3({ post: e }) {
                 a = n.reply !== "" ? n.reply : "?",
                 o = n.retweet !== "" ? n.retweet : "?",
                 s = n.spread !== "" ? n.spread : "?",
-                reach = n.reach !== "" ? n.reach : "?";
+                reach =
+                    n.reach !== "" ? getRawNumberFromJaFormat(n.reach) : "?";
             return {
                 like: i,
                 reply: a,
@@ -28275,6 +28274,19 @@ const Pt = ({ name: e, sort: t, onSort: r, className: n, type: i }) =>
             t === "" && O(Fy, { className: "inline-block" }),
         ],
     });
+const getRawNumberFromJaFormat = (jaFormatNumber) => {
+    if (jaFormatNumber == undefined || jaFormatNumber == null) {
+        return null;
+    } else if (jaFormatNumber.includes("万")) {
+        const number = jaFormatNumber.replace("万", "");
+
+        return number * 10000;
+    } else if (jaFormatNumber.includes(",")) {
+        return jaFormatNumber.replace(",", "");
+    } else {
+        return jaFormatNumber;
+    }
+};
 function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
     const [i, a] = T.exports.useState(""),
         [o, s] = T.exports.useState(""),
@@ -28290,15 +28302,17 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                     id: b + 1,
                     time: er(_.time).format("YYYY-MM-DD"),
                     content: _.content,
-                    like: _.like ? parseInt(_.like) : "?",
-                    retweet: _.retweet ? parseInt(_.retweet) : "?",
-                    comment: _.reply ? parseInt(_.reply) : "?",
-                    spread: _.spread ? parseInt(_.spread) : "?",
+                    like: _.like ? parseInt(_.like) : "0",
+                    retweet: _.retweet ? parseInt(_.retweet) : "0",
+                    comment: _.reply ? parseInt(_.reply) : "0",
+                    spread: _.spread ? parseInt(_.spread) : "0",
                     score: S,
                     postType: ud(_.postType),
                     image: _.image || _.video || [],
-                    reach: _.reach ? parseInt(_.reach) : "?",
-                    tweetId: _.tweetId ? _.tweetId : "?",
+                    reach: _.reach
+                        ? parseInt(getRawNumberFromJaFormat(_.reach))
+                        : ">30K",
+                    tweetId: _.tweetId ? _.tweetId : "0",
                 };
 
                 return outputData;
@@ -28313,7 +28327,7 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
             return (
                 r &&
                     (g = g.filter((_) => {
-                        const b = er(r).format("DD-MM-YYYY");
+                        const b = er(r).format("YYYY-MM-DD");
                         return _.time === b;
                     })),
                 o &&
@@ -28329,6 +28343,9 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
         v = (g, _) => {
             f(g), y(_), l(!0);
         };
+    const userId = JSON.parse(localStorage.profileData)["author"][
+        "additionalName"
+    ];
     return L("div", {
         className: "",
         children: [
@@ -28585,7 +28602,17 @@ function K3({ post: e, filter: t, filterDate: r, filterValue: n }) {
                                                         O("td", {
                                                             className:
                                                                 "w-2/12 whitespace-normal py-4 pr-4 text-right text-sm",
-                                                            children: g.tweetId,
+                                                            children: L("a", {
+                                                                target: "_blank",
+                                                                href:
+                                                                    "https://twitter.com/" +
+                                                                    userId +
+                                                                    "/status/" +
+                                                                    g.tweetId,
+                                                                children: [
+                                                                    g.tweetId,
+                                                                ],
+                                                            }),
                                                         }),
                                                     ],
                                                 },
