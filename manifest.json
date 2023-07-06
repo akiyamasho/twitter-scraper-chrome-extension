@@ -1,0 +1,23 @@
+{
+   "action": {
+      "default_icon": "icon-34.png",
+      "default_popup": "src/pages/popup/index.html"
+   },
+   "background": {
+      "service_worker": "src/pages/background/index.js"
+   },
+   "description": "Chrome extension for scraping twitter profile",
+   "icons": {
+      "128": "icon-128.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgTR1vIJX+hHnBziM0DhiP5swe45uJ3dDdE1/XAvC2LDB2p8gqOghz2Iw6m8+1StcrZMC/aDavm8PT2qwx7aG+EsPECNyJl9+SfYsYrLFROkw0Kc5/0YrzHEQK9BseU2V7zHSnGBEoNn1seiml/M5T2Wuye3YigVt9iC6zXozPCoLzvyX+q5b4SJPVtIp4/dQYFQjPDHo6uKkw0U6zSw/u+X71mc32/xiY9hc4zZYvwYDLyMzfsgp/SHLRe5VuOVmuEcgKSoYRiGJb0elVo4WrNH6RPpsnkT0tWMAuzdCZaGjpYlLF5EyMwnldXMXfPoUK662QWhalpMGXE/tL/4nUQIDAQAB",
+   "manifest_version": 3,
+   "name": "Twitter Scraper",
+   "permissions": [ "activeTab", "scripting", "tabs" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.0.2",
+   "web_accessible_resources": [ {
+      "matches": [ "*://*/*" ],
+      "resources": [ "assets/js/*.js", "assets/css/*.css", "icon-128.png", "icon-34.png" ]
+   } ]
+}
