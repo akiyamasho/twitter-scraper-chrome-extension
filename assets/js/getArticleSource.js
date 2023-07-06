@@ -18,8 +18,12 @@ if (!window.retrievePostData) {
             var textsDom = element.querySelectorAll(
                 "[data-testid=tweetText] > *"
             );
-            var likeDom = element.querySelector("[data-testid=like]");
-            var retweetDom = element.querySelector("[data-testid=retweet]");
+            var likeDom =
+                element.querySelector("[data-testid=like]") ||
+                element.querySelector("[data-testid=unlike]");
+            var retweetDom =
+                element.querySelector("[data-testid=retweet]") ||
+                element.querySelector("[data-testid=unretweet]");
             var replyDom = element.querySelector("[data-testid=reply]");
             var spreadDom = element.querySelector(
                 "div:has(>[data-testid=like])+div"
@@ -27,8 +31,8 @@ if (!window.retrievePostData) {
             var imagesDom = element.querySelectorAll(
                 "[data-testid=tweetPhoto] img"
             );
-            var linksDom = element.querySelectorAll("a[aria-label*=日]");
-            var engagementDom = element.querySelectorAll("a[href$=analytics]");
+            var linkDom = element.querySelector("a[aria-label*=日]");
+            var reachDom = element.querySelector("a[href$=analytics]");
             var videosDom = element.querySelectorAll(
                 "[data-testid=tweetPhoto] video"
             );
@@ -36,6 +40,7 @@ if (!window.retrievePostData) {
             var image = [];
             var video = [];
             var content = "";
+
             if (textsDom) {
                 for (var textDom of textsDom) {
                     if (textDom.tagName.toLowerCase() === "span") {
@@ -71,10 +76,14 @@ if (!window.retrievePostData) {
                 spread: spreadDom ? spreadDom.innerText : "",
                 image: image,
                 video: video,
-                link: linksDom ? linksDom.href : "",
-                engagement: engagementDom ? engagementDom.innerText : "",
+                tweetId: linkDom
+                    ? linkDom.href.substring(linkDom.href.lastIndexOf("/") + 1)
+                    : "",
+                reach: reachDom ? reachDom.innerText : "",
                 postType,
             };
+            console.log(data["engagement"]);
+            console.log(data["tweetId"]);
             articleData.push(data);
             var index = window.allArticle.findIndex(
                 (item) => item.time === data.time

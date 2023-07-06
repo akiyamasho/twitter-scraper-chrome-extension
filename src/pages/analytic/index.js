@@ -2901,7 +2901,8 @@ const Om = [
     { label: "Like", key: "like" },
     { label: "Retweet", key: "retweet" },
     { label: "Reply", key: "reply" },
-    { label: "Link", key: "link" },
+    { label: "Reach", key: "reach" },
+    { label: "Tweet ID", key: "tweetId" },
 ];
 function Am({ tab: e, onChangeTab: t, onExport: r, post: n, profile: i }) {
     const a = () => {
